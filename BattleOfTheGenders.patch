@@ -1,0 +1,71 @@
+diff --git a/src/bzfs/WorldGenerators.cxx b/src/bzfs/WorldGenerators.cxx
+index 8e139f3..b70331b 100644
+--- a/src/bzfs/WorldGenerators.cxx
++++ b/src/bzfs/WorldGenerators.cxx
+@@ -151,11 +151,12 @@ WorldInfo *defineTeamWorld()
+   int t;
+   for (t = RedTeam; t <= PurpleTeam; t++)
+     bases[t] = TeamBases((TeamColor)t, true);
++  bases[PurpleTeam] = TeamBases(RedTeam, true);
+ 
+-  const bool haveRed    = clOptions->maxTeam[RedTeam] > 0;
++  const bool havePurple    = clOptions->maxTeam[RedTeam] > 0;
+   const bool haveGreen  = clOptions->maxTeam[GreenTeam] > 0;
+   const bool haveBlue   = clOptions->maxTeam[BlueTeam] > 0;
+-  const bool havePurple = clOptions->maxTeam[PurpleTeam] > 0;
++  const bool haveRed = clOptions->maxTeam[PurpleTeam] > 0;
+ 
+   makeWalls();
+   const float pyrHeight = BZDB.eval(StateDatabase::BZDB_PYRHEIGHT);
+@@ -586,7 +587,7 @@ WorldInfo *defineTeamWorld()
+       const float size[3] = {baseSize * 0.5f, baseSize * 0.5f, 0.0f};
+       const float safeOff = 0.5f * (baseSize + pyrBase);
+       switch (t) {
+-       case RedTeam: {
++       case PurpleTeam: {
+          p[0] = (-worldSize + baseSize) / 2.0f;
+          p[1] = 0.0f;
+          myWorld->addBase(p, 0.0f, size, t, false, false, false);
+@@ -610,7 +611,7 @@ WorldInfo *defineTeamWorld()
+          zone.addFlagSafety(p[0] + safeOff, p[1] + safeOff, myWorld);
+          break;
+        }
+-       case PurpleTeam: {
++       case RedTeam: {
+          p[0] = 0.0f;
+          p[1] = (worldSize - baseSize) / 2.0f;
+          myWorld->addBase(p, 0.0f, size, t, false, false, false);
+diff --git a/src/bzfs/bzfs.cxx b/src/bzfs/bzfs.cxx
+index 1fdf01b..2249eba 100644
+--- a/src/bzfs/bzfs.cxx
++++ b/src/bzfs/bzfs.cxx
+@@ -5186,7 +5186,7 @@ static void handleTcp(NetHandler &netPlayer, int i, const RxStatus e)
+       snprintf(message, MessageLen, "Turn on UDP on your firewall or router.");
+       sendMessage(ServerPlayer, i, message);
+ 
+-      removePlayer(i, "no UDP");
++      //removePlayer(i, "no UDP");
+       return;
+     }
+   }
+diff --git a/src/bzfs/commands.cxx b/src/bzfs/commands.cxx
+index 4d24b21..e0ec47e 100644
+--- a/src/bzfs/commands.cxx
++++ b/src/bzfs/commands.cxx
+@@ -3375,13 +3375,15 @@ bool SayCommand::operator() (const char  *message,
+     return true;
+   }
+ 
++  sendMessage(ServerPlayer, AllPlayers, messageText.c_str() + messageStart );
++
+   // no anonymous messages
+   messageText += " (";
+   messageText += playerData->player.getCallSign();
+   messageText += ")";
+ 
+   // send the message
+-  sendMessage(ServerPlayer, AllPlayers, messageText.c_str() + messageStart );
++  sendMessage(ServerPlayer, AdminPlayers, messageText.c_str() + messageStart );
+   return true;
+ }
+ 
