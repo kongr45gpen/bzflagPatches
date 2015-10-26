@@ -23,3 +23,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <http://unlicense.org>
 
+This license does not apply to original BZFlag code, licensed under
+the GNU Lesser General Public License Version 2.1. Consult BZFlag's
+COPYING file for more information:
+<https://github.com/BZFlag-Dev/bzflag/blob/2.4/COPYING>
