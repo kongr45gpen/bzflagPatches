@@ -1,4 +1,5 @@
-* Places the pink base to the opposite of the purple one in randomly generated maps
+* Places the purple base and spawn zone to the opposite of the green one
+      in randomly generated maps
 * Prevents UDP kicks
 
 diff --git a/src/bzfs/WorldGenerators.cxx b/src/bzfs/WorldGenerators.cxx
