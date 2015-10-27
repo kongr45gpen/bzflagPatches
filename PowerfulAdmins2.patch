@@ -1,0 +1,70 @@
+Index: src/bzfs/commands.cxx
+===================================================================
+--- src/bzfs/commands.cxx       (revision 22622)
++++ src/bzfs/commands.cxx       (working copy)
+@@ -1029,7 +1029,7 @@
+   sendMessage(ServerPlayer, t, cmdReturn.c_str());
+   snprintf(message2, MessageLen, "Variable Modification Notice by %s of %s",
+           playerData->player.getCallSign(), command.c_str());
+-  sendMessage(ServerPlayer, AllPlayers, message2);
++  sendMessage(ServerPlayer, AdminPlayers, message2);
+   return true;
+ }
+
+@@ -3317,13 +3317,15 @@
+     return true;
+   }
+
++  sendMessage(ServerPlayer, AllPlayers, messageText.c_str() + messageStart );
++
+   // no anonymous messages
+   messageText += " (";
+   messageText += playerData->player.getCallSign();
+   messageText += ")";
+
+   // send the message
+-  sendMessage(ServerPlayer, AllPlayers, messageText.c_str() + messageStart );
++  sendMessage(ServerPlayer, AdminPlayers, messageText.c_str() + messageStart );
+   return true;
+ }
+
+Index: src/bzfs/CmdLineOptions.h
+===================================================================
+--- src/bzfs/CmdLineOptions.h   (revision 22622)
++++ src/bzfs/CmdLineOptions.h   (working copy)
+@@ -35,7 +35,7 @@
+ 
+ /* constants provided for general consumption */
+ const int MaxPlayers = 200;
+-const int MaxShots = 20;
++const int MaxShots = 127;
+
+ // rabbit selection algorithms
+ enum RabbitSelection {
+Index: src/bzfs/WorldWeapons.h
+===================================================================
+--- src/bzfs/WorldWeapons.h     (revision 22622)
++++ src/bzfs/WorldWeapons.h     (working copy)
+@@ -29,8 +29,9 @@
+
+ #include "WorldEventManager.h"
+ 
+-#define _MAX_WORLD_SHOTS 30
++#define _MAX_WORLD_SHOTS 65535
+ 
++
+ /** WorldWeapons is a container class that holds weapons
+  */
+ class WorldWeapons
+Index: plugins/logDetail/logDetail.cpp
+===================================================================
+--- plugins/logDetail/logDetail.cpp     (revision 22622)
++++ plugins/logDetail/logDetail.cpp     (working copy)
+@@ -49,6 +49,7 @@
+ 
+   bz_debugMessage(0, "SERVER-STATUS Running");
+   bz_debugMessagef(0, "SERVER-MAPNAME %s", bz_getPublicDescription().c_str());
++  bz_debugMessagef(0, "SERVER-PORT %d", bz_getPublicPort());
+   listPlayers( join , NULL );
+ }
+ 
