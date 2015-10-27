@@ -1,0 +1,26 @@
+diff --git a/src/bzfs/CmdLineOptions.h b/src/bzfs/CmdLineOptions.h
+index 9878d33..f7eac8f 100644
+--- a/src/bzfs/CmdLineOptions.h
++++ b/src/bzfs/CmdLineOptions.h
+@@ -35,7 +35,7 @@ class EntryZones;
+ 
+ /* constants provided for general consumption */
+ const int MaxPlayers = 200;
+-const int MaxShots = 20;
++const int MaxShots = 127;
+ 
+ // rabbit selection algorithms
+ enum RabbitSelection {
+diff --git a/src/bzfs/WorldWeapons.h b/src/bzfs/WorldWeapons.h
+index 8628a55..963c2b8 100644
+--- a/src/bzfs/WorldWeapons.h
++++ b/src/bzfs/WorldWeapons.h
+@@ -26,7 +26,7 @@
+ #include "WorldEventManager.h"
+ #include "PlayerInfo.h"
+ 
+-#define _MAX_WORLD_SHOTS 255
++#define _MAX_WORLD_SHOTS 32767
+ 
+ /** WorldWeapons is a container class that holds weapons
+  */

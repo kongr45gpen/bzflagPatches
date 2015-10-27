@@ -1,5 +1,5 @@
 diff --git a/src/bzadmin/BZAdminClient.cxx b/src/bzadmin/BZAdminClient.cxx
-index 8297279..9937482 100644
+index 2357d04..9bce29c 100644
 --- a/src/bzadmin/BZAdminClient.cxx
 +++ b/src/bzadmin/BZAdminClient.cxx
 @@ -73,7 +73,7 @@ BZAdminClient::BZAdminClient(BZAdminUI* bzInterface)
@@ -11,49 +11,26 @@ index 8297279..9937482 100644
    if (sLink.getState() != ServerLink::Okay) {
      std::cerr << "Rejected." << std::endl;
      return;
-diff --git a/src/bzfs/CmdLineOptions.h b/src/bzfs/CmdLineOptions.h
-index 15873ec..0b983c3 100644
---- a/src/bzfs/CmdLineOptions.h
-+++ b/src/bzfs/CmdLineOptions.h
-@@ -35,7 +35,7 @@ class EntryZones;
-
- /* constants provided for general consumption */
- const int MaxPlayers = 200;
--const int MaxShots = 20;
-+const int MaxShots = 250;
-
- // rabbit selection algorithms
- enum RabbitSelection {
-diff --git a/src/bzfs/WorldWeapons.h b/src/bzfs/WorldWeapons.h
-index a1db1bf..af1c904 100644
---- a/src/bzfs/WorldWeapons.h
-+++ b/src/bzfs/WorldWeapons.h
-@@ -30,7 +30,7 @@
- #include "WorldEventManager.h"
- #include "PlayerInfo.h"
-
--#define _MAX_WORLD_SHOTS 255
-+#define _MAX_WORLD_SHOTS 25500
-
- /** WorldWeapons is a container class that holds weapons
-  */
 diff --git a/src/bzfs/commands.cxx b/src/bzfs/commands.cxx
-index 000c461..2aae15e 100644
+index 4d24b21..2004727 100644
 --- a/src/bzfs/commands.cxx
 +++ b/src/bzfs/commands.cxx
-@@ -3317,13 +3317,15 @@ bool SayCommand::operator() (const char  *message,
+@@ -1025,7 +1025,7 @@ bool SetCommand::operator() (const char    *message,
+   sendMessage(ServerPlayer, t, cmdReturn.c_str());
+   snprintf(message2, MessageLen, "Variable Modification Notice by %s of %s",
+           playerData->player.getCallSign(), command.c_str());
+-  sendMessage(ServerPlayer, AllPlayers, message2);
++  sendMessage(ServerPlayer, AdminPlayers, message2);
+   return true;
+ }
+ 
+@@ -3375,6 +3375,8 @@ bool SayCommand::operator() (const char    *message,
      return true;
    }
-
+ 
 +  sendMessage(ServerPlayer, AllPlayers, messageText.c_str() + messageStart );
 +
    // no anonymous messages
    messageText += " (";
    messageText += playerData->player.getCallSign();
-   messageText += ")";
 
-   // send the message
--  sendMessage(ServerPlayer, AllPlayers, messageText.c_str() + messageStart );
-+  sendMessage(ServerPlayer, AdminPlayers, messageText.c_str() + messageStart );
-   return true;
- }
