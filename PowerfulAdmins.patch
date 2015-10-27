@@ -1,0 +1,59 @@
+diff --git a/src/bzadmin/BZAdminClient.cxx b/src/bzadmin/BZAdminClient.cxx
+index 8297279..9937482 100644
+--- a/src/bzadmin/BZAdminClient.cxx
++++ b/src/bzadmin/BZAdminClient.cxx
+@@ -73,7 +73,7 @@ BZAdminClient::BZAdminClient(BZAdminUI* bzInterface)
+     // won't really output anything, just gets token
+     outputServerList();
+   }
+-  sLink.sendEnter(TankPlayer, myTeam, startupInfo.callsign, "bzadmin", startupInfo.token);
++  sLink.sendEnter(TankPlayer, myTeam, startupInfo.callsign, "", startupInfo.token);
+   if (sLink.getState() != ServerLink::Okay) {
+     std::cerr << "Rejected." << std::endl;
+     return;
+diff --git a/src/bzfs/CmdLineOptions.h b/src/bzfs/CmdLineOptions.h
+index 15873ec..0b983c3 100644
+--- a/src/bzfs/CmdLineOptions.h
++++ b/src/bzfs/CmdLineOptions.h
+@@ -35,7 +35,7 @@ class EntryZones;
+
+ /* constants provided for general consumption */
+ const int MaxPlayers = 200;
+-const int MaxShots = 20;
++const int MaxShots = 250;
+
+ // rabbit selection algorithms
+ enum RabbitSelection {
+diff --git a/src/bzfs/WorldWeapons.h b/src/bzfs/WorldWeapons.h
+index a1db1bf..af1c904 100644
+--- a/src/bzfs/WorldWeapons.h
++++ b/src/bzfs/WorldWeapons.h
+@@ -30,7 +30,7 @@
+ #include "WorldEventManager.h"
+ #include "PlayerInfo.h"
+
+-#define _MAX_WORLD_SHOTS 255
++#define _MAX_WORLD_SHOTS 25500
+
+ /** WorldWeapons is a container class that holds weapons
+  */
+diff --git a/src/bzfs/commands.cxx b/src/bzfs/commands.cxx
+index 000c461..2aae15e 100644
+--- a/src/bzfs/commands.cxx
++++ b/src/bzfs/commands.cxx
+@@ -3317,13 +3317,15 @@ bool SayCommand::operator() (const char  *message,
+     return true;
+   }
+
++  sendMessage(ServerPlayer, AllPlayers, messageText.c_str() + messageStart );
++
+   // no anonymous messages
+   messageText += " (";
+   messageText += playerData->player.getCallSign();
+   messageText += ")";
+
+   // send the message
+-  sendMessage(ServerPlayer, AllPlayers, messageText.c_str() + messageStart );
++  sendMessage(ServerPlayer, AdminPlayers, messageText.c_str() + messageStart );
+   return true;
+ }
