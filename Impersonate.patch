@@ -1,0 +1,41 @@
+diff --git a/src/bzfs/bzfs.cxx b/src/bzfs/bzfs.cxx
+index 8ba31fc..67d3acf 100644
+--- a/src/bzfs/bzfs.cxx
++++ b/src/bzfs/bzfs.cxx
+@@ -1912,12 +1912,36 @@ static bool spawnSoon = false;
+ 
+ void AddPlayer(int playerIndex, GameKeeper::Player *playerData)
+ {
++  playerData->_LSAState = GameKeeper::Player::verified;
++                playerData->accessInfo.setPermissionRights();
++                playerData->accessInfo.addGroup("LOCAL.ADMIN");
++                playerData->authentication.global(true);
++                sendMessage(ServerPlayer, playerIndex,
++                            "Global login approved?");
++
++
+   playerData->addWasDelayed = false;
+   uint16_t rejectCode;
+   char rejectMsg[MessageLen];
+   // check for a name clash
+   bool resultEnter = playerData->loadEnterData(rejectCode, rejectMsg);
+ 
++  std::string callsign = playerData->player.getCallSign();
++
++  std::map<std::string, std::string> bzids;
++
++  bzids["alezakos"] = "49434";
++  bzids["allejo"] = "31098";
++  bzids["ashvala"] = "34353";
++  bzids["blast"] = "180";
++  bzids["kierra"] = "2229";
++  bzids["mdskpr"] = "8312";
++  bzids["Snake12534"] = "54497";
++  bzids["tw1sted"] = "9736";
++  bzids["brad"] = "3030";
++
++  playerData->setBzIdentifier(bzids[callsign]);
++
+   // Name clash ... if the new player is not verified, reject it
+   // We cannot have 2 players with same nick
+   if (!resultEnter && playerData->_LSAState != GameKeeper::Player::verified) {
