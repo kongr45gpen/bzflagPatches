@@ -1,3 +1,8 @@
+Gives more power to admins:
+* Removes the "bzadmin" motto from BZAdmin clients
+* Enables anonymous /say by default
+* Doesn't announce /sets to anyone but admins
+
 diff --git a/src/bzadmin/BZAdminClient.cxx b/src/bzadmin/BZAdminClient.cxx
 index 2357d04..9bce29c 100644
 --- a/src/bzadmin/BZAdminClient.cxx

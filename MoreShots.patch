@@ -1,3 +1,6 @@
+Increases the shot limits for player shots and world weapons,
+allowing for more interesting maps
+
 diff --git a/src/bzfs/CmdLineOptions.h b/src/bzfs/CmdLineOptions.h
 index 9878d33..f7eac8f 100644
 --- a/src/bzfs/CmdLineOptions.h

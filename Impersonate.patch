@@ -1,3 +1,12 @@
+********************************************************************************
+*******************************      DANGER!     *******************************
+********************************************************************************
+UNSAFE IN PRODUCTION! THIS PATCH SHOULD ONLY BE USED WHEN DEVELOPING OR TESTING!
+
+Allows connecting to a server as any verified player without having access to
+the list server. Will only guess BZIDs for some users (you can add yourself as
+well), and will only add the "LOCAL.ADMIN" (and "VERIFIED") groups.
+
 diff --git a/src/bzfs/bzfs.cxx b/src/bzfs/bzfs.cxx
 index 8ba31fc..67d3acf 100644
 --- a/src/bzfs/bzfs.cxx
