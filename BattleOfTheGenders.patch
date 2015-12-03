@@ -25,25 +25,25 @@ index 8e139f3..b70331b 100644
        const float size[3] = {baseSize * 0.5f, baseSize * 0.5f, 0.0f};
        const float safeOff = 0.5f * (baseSize + pyrBase);
        switch (t) {
--       case RedTeam: {
-+       case PurpleTeam: {
-          p[0] = (-worldSize + baseSize) / 2.0f;
-          p[1] = 0.0f;
-          myWorld->addBase(p, 0.0f, size, t, false, false, false);
+-	case RedTeam: {
++	case PurpleTeam: {
+ 	  p[0] = (-worldSize + baseSize) / 2.0f;
+ 	  p[1] = 0.0f;
+ 	  myWorld->addBase(p, 0.0f, size, t, false, false, false);
 @@ -610,7 +611,7 @@ WorldInfo *defineTeamWorld()
-          zone.addFlagSafety(p[0] + safeOff, p[1] + safeOff, myWorld);
-          break;
-        }
--       case PurpleTeam: {
-+       case RedTeam: {
-          p[0] = 0.0f;
-          p[1] = (worldSize - baseSize) / 2.0f;
-          myWorld->addBase(p, 0.0f, size, t, false, false, false);
+ 	  zone.addFlagSafety(p[0] + safeOff, p[1] + safeOff, myWorld);
+ 	  break;
+ 	}
+-	case PurpleTeam: {
++	case RedTeam: {
+ 	  p[0] = 0.0f;
+ 	  p[1] = (worldSize - baseSize) / 2.0f;
+ 	  myWorld->addBase(p, 0.0f, size, t, false, false, false);
 diff --git a/src/bzfs/bzfs.cxx b/src/bzfs/bzfs.cxx
-index 1fdf01b..2249eba 100644
+index c86c1a4..552a73f 100644
 --- a/src/bzfs/bzfs.cxx
 +++ b/src/bzfs/bzfs.cxx
-@@ -5186,7 +5186,7 @@ static void handleTcp(NetHandler &netPlayer, int i, const RxStatus e)
+@@ -5151,7 +5151,7 @@ static void handleTcp(NetHandler &netPlayer, int i, const RxStatus e)
        snprintf(message, MessageLen, "Turn on UDP on your firewall or router.");
        sendMessage(ServerPlayer, i, message);
  
@@ -52,4 +52,3 @@ index 1fdf01b..2249eba 100644
        return;
      }
    }
- 

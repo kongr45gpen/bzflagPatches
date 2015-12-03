@@ -3,8 +3,9 @@ Gives more power to admins:
 * Enables anonymous /say by default
 * Doesn't announce /sets to anyone but admins
 
+
 diff --git a/src/bzadmin/BZAdminClient.cxx b/src/bzadmin/BZAdminClient.cxx
-index 2357d04..9bce29c 100644
+index 50eb072..df921d6 100644
 --- a/src/bzadmin/BZAdminClient.cxx
 +++ b/src/bzadmin/BZAdminClient.cxx
 @@ -73,7 +73,7 @@ BZAdminClient::BZAdminClient(BZAdminUI* bzInterface)
@@ -17,19 +18,19 @@ index 2357d04..9bce29c 100644
      std::cerr << "Rejected." << std::endl;
      return;
 diff --git a/src/bzfs/commands.cxx b/src/bzfs/commands.cxx
-index 4d24b21..2004727 100644
+index d15486b..69b3e6a 100644
 --- a/src/bzfs/commands.cxx
 +++ b/src/bzfs/commands.cxx
-@@ -1025,7 +1025,7 @@ bool SetCommand::operator() (const char    *message,
+@@ -1026,7 +1026,7 @@ bool SetCommand::operator() (const char	 *message,
    sendMessage(ServerPlayer, t, cmdReturn.c_str());
    snprintf(message2, MessageLen, "Variable Modification Notice by %s of %s",
-           playerData->player.getCallSign(), command.c_str());
+ 	   playerData->player.getCallSign(), command.c_str());
 -  sendMessage(ServerPlayer, AllPlayers, message2);
 +  sendMessage(ServerPlayer, AdminPlayers, message2);
    return true;
  }
  
-@@ -3375,6 +3375,8 @@ bool SayCommand::operator() (const char    *message,
+@@ -3376,13 +3376,15 @@ bool SayCommand::operator() (const char	 *message,
      return true;
    }
  
@@ -38,4 +39,11 @@ index 4d24b21..2004727 100644
    // no anonymous messages
    messageText += " (";
    messageText += playerData->player.getCallSign();
-
+   messageText += ")";
+ 
+   // send the message
+-  sendMessage(ServerPlayer, AllPlayers, messageText.c_str() + messageStart );
++  sendMessage(ServerPlayer, AdminPlayers, messageText.c_str() + messageStart );
+   return true;
+ }
+ 
