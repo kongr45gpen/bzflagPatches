@@ -7,14 +7,18 @@ Allows connecting to a server as any verified player without having access to
 the list server. Will only guess BZIDs for some users (you can add yourself as
 well), and will only add the "LOCAL.ADMIN" (and "VERIFIED") groups.
 
+If you want to debug LeagueOverseer, set matchRollCall to a small value
+(e.g 2.0) instead of 90.0.
+
 diff --git a/src/bzfs/bzfs.cxx b/src/bzfs/bzfs.cxx
-index 8ba31fc..67d3acf 100644
+index a9edaf5..6357c01 100644
 --- a/src/bzfs/bzfs.cxx
 +++ b/src/bzfs/bzfs.cxx
-@@ -1912,12 +1912,36 @@ static bool spawnSoon = false;
+@@ -1986,12 +1986,37 @@ static bool spawnSoon = false;
  
  void AddPlayer(int playerIndex, GameKeeper::Player *playerData)
  {
++  playerData->accessInfo.storeInfo();
 +  playerData->_LSAState = GameKeeper::Player::verified;
 +                playerData->accessInfo.setPermissionRights();
 +                playerData->accessInfo.addGroup("LOCAL.ADMIN");
