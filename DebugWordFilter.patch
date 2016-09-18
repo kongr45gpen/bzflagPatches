@@ -1,0 +1,23 @@
+Outputs a console message whenever a bad word is filtered, mentioning which
+dictionary word triggered the filter.
+
+diff --git a/src/common/WordFilter.cxx b/src/common/WordFilter.cxx
+index 434d96c..7b6a4b9 100644
+--- a/src/common/WordFilter.cxx
++++ b/src/common/WordFilter.cxx
+@@ -61,6 +61,7 @@ bool WordFilter::simpleFilter(char *input) const
+ 
+       /* fill with random filter chars */
+       if (filterCharacters(input, startPosition, endPosition-startPosition, true) > 0) {
++	std::cout << "FILTER-DEBUG: \"" << std::string(input).substr(startPosition, endPosition-startPosition) << "\" matched filter " << filters[firstchar].find(findWord)->word << std::endl;
+ 	filtered=true;
+       }
+     }
+@@ -282,6 +283,7 @@ bool WordFilter::aggressiveFilter(char *input) const
+ 	  filler.assign(matchLength, 'W');
+ 	  sInput.replace(startOffset, matchLength, filler);
+ 
++	  std::cout << "FILTER-DEBUG: \"" << std::string(input).substr(startOffset, matchLength) << "\" matched filter " << i->word << std::endl;
+ 	} else if ( regCode == REG_NOMATCH ) {
+ 	  // do nothing
+ 	  continue;
